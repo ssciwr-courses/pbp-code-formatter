@@ -10,16 +10,16 @@ def validate_data_dict(data_dict):
                     not a dict but {type(otherthing)}."
             )
 
-        list_ = ["data", "file_type", "sofa", "paragraph"]
+        list = ["data", "file_type", "sofa", "paragraph"]
         missing_cats = []
-        for category in list_:
+        for category in list:
             if category not in list(otherthing.keys()):
                 missing_cats.append(category)
 
         if missing_cats:
             raise ValueError(
-                f"Data dict is missing categories: \
-                             {missing_cats}"
+                f"Data dict is missing \
+                             categories: {missing_cats}"
             )
 
 
