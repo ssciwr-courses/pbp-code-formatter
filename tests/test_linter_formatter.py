@@ -23,6 +23,25 @@ def test_flake8():
         print("No stylistic errors found!")
     assert failure == 0
 
+def test_flake8_nb():
+    # Get the repository directory
+    current_dir = Path(__file__).resolve().parents[1]
+    input_file_path = current_dir / "chapter2_3" / "example_jupyter.ipynb"
+    # run flake8 on the example files
+    command = "flake8-nb {}".format(input_file_path)
+    failure = 0
+    try:
+        subprocess.check_output(command, shell=True)
+    except subprocess.CalledProcessError as e:
+        failure = e.returncode
+    # if there are some, print the differences and calculate no of errors
+    if failure == 1:
+        os.system("flake8-nb {}".format(input_file_path))
+        print("Please try again!")
+    else:
+        print("No stylistic errors found!")
+    assert failure == 0
+
 
 def test_german_name():
     # Kreis in example 2
