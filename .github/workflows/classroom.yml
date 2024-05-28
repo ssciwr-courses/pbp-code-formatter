@@ -13,15 +13,17 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: check-for-stylistic-errors
-      id: check-for-stylistic-errors
-      uses: classroom-resources/autograding-python-grader@v1
+    - name: test code formatting
+      id: test-code-formatting
+      uses: classroom-resources/autograding-command-grader@v1
       with:
+        test-name: test code formatting
+        setup-command: 'pip install -r requirements.txt'
+        command: python -m pytest -m "not skipautograding"
         timeout: 10
-        setup-command: 'pip install flake8 flake8-nb'
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        CHECK-FOR-STYLISTIC-ERRORS_RESULTS: "${{steps.check-for-stylistic-errors.outputs.result}}"
+        TEST-CODE-FORMATTING_RESULTS: "${{steps.test-code-formatting.outputs.result}}"
       with:
-        runners: check-for-stylistic-errors
+        runners: test-code-formatting

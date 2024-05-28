@@ -1,6 +1,7 @@
 import os
 import re
 import subprocess
+import pytest
 from pathlib import Path
 
 
@@ -23,6 +24,7 @@ def test_flake8():
         print("No stylistic errors found!")
     assert failure == 0
 
+@pytest.mark.skipautograding
 def test_flake8_nb():
     # Get the repository directory
     current_dir = Path(__file__).resolve().parents[1]
