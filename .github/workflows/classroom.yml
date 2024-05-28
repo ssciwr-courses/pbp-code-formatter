@@ -18,8 +18,8 @@ jobs:
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: test code formatting
-        setup-command: ''
-        command: python -m pytest
+        setup-command: 'pip install -r requirements.txt'
+        command: python -m pytest -m "not skipautograding"
         timeout: 10
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
