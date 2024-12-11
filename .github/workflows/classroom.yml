@@ -1,7 +1,8 @@
 name: Autograding Tests
-'on':
-- push
-- repository_dispatch
+on:
+  push:
+  repository_dispatch:
+  workflow_dispatch:
 permissions:
   checks: write
   actions: read
@@ -21,6 +22,7 @@ jobs:
         setup-command: 'pip install -r requirements.txt'
         command: python -m pytest -m "not skipautograding"
         timeout: 10
+        max-score: 4
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
