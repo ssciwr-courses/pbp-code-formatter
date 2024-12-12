@@ -14,18 +14,16 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: test code formatting
-      id: test-code-formatting
-      uses: classroom-resources/autograding-command-grader@v1
+    - name: check-for-stylistic-errors
+      id: check-for-stylistic-errors
+      uses: classroom-resources/autograding-python-grader@v1
       with:
-        test-name: test code formatting
-        setup-command: 'pip install -r requirements.txt'
-        command: python -m pytest
         timeout: 10
+        setup-command: 'pip install flake8'
         max-score: 4
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        TEST-CODE-FORMATTING_RESULTS: "${{steps.test-code-formatting.outputs.result}}"
+        CHECK-FOR-STYLISTIC-ERRORS_RESULTS: "${{steps.check-for-stylistic-errors.outputs.result}}"
       with:
-        runners: test-code-formatting
+        runners: check-for-stylistic-errors
