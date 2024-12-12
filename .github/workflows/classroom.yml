@@ -19,7 +19,7 @@ jobs:
       uses: classroom-resources/autograding-python-grader@v1
       with:
         timeout: 10
-        setup-command: 'pip install flake8'
+        setup-command: 'pip install -r requirements.txt'
         max-score: 4
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
