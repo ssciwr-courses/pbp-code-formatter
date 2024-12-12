@@ -29,8 +29,12 @@ def test_flake8_nb():
     current_dir = Path(__file__).resolve().parents[1]
     input_file_path = current_dir / "chapter2_3" / "example_jupyter.ipynb"
     # run flake8 on the example files
+    print("Running flake8-nb on example_jupyter {}".format(input_file_path))
     command = "flake8-nb {}".format(input_file_path)
+    print(command)
     failure = 0
+    os.system("which flake8-nb")
+    os.system("flake8-nb --version")
     try:
         subprocess.check_output(command, shell=True)
     except subprocess.CalledProcessError as e:
