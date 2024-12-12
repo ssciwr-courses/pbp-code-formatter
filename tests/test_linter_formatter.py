@@ -33,6 +33,7 @@ def test_flake8_nb():
     command = "flake8-nb {}".format(input_file_path)
     print(command)
     failure = 0
+    os.system("which flake8")
     os.system("which flake8-nb")
     os.system("flake8-nb --version")
     try:
