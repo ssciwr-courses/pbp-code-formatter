@@ -24,12 +24,13 @@ def test_flake8():
         print("No stylistic errors found!")
     assert failure == 0
 
-@pytest.mark.skipautograding
+@pytest.mark.skip(reason="flake8-nb not running on container")
 def test_flake8_nb():
     # Get the repository directory
     current_dir = Path(__file__).resolve().parents[1]
     input_file_path = current_dir / "chapter2_3" / "example_jupyter.ipynb"
     # run flake8 on the example files
+    print("Running flake8-nb on example_jupyter {}".format(input_file_path))
     command = "flake8-nb {}".format(input_file_path)
     failure = 0
     try:
@@ -67,12 +68,12 @@ def test_intrinsic_function():
     not_accepted_characters = [" ", ":"]
     failure = 0
     for i in find_list:
-        check_last_character = file_content[i+4]
+        check_last_character = file_content[i + 4]
         if check_last_character in not_accepted_characters:
-            print("Found 'list' as variable name in the file! Please change the variable name.")
+            print(
+                """Found 'list' as variable name in the file!
+                Please change the variable name."""
+            )
             print(file_content[i:i+5])
             failure = 1
     assert failure == 0
-
-def test_jupyter_notebook():
-    pass

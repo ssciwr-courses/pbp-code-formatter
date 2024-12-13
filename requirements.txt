@@ -1,4 +1,5 @@
 pytest
 black
+black[jupyter]
 flake8
-flake8-nb
+flake8-nb==0.5.3
