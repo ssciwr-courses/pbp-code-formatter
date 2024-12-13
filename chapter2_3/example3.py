@@ -9,10 +9,10 @@ def validate_data_dict(data_dict):
                 f"The content of {something} is not a dict but {type(otherthing)}."
             )
 
-        list_ = ["data", "file_type", "sofa", "paragraph"]
+        list = ["data", "file_type", "sofa", "paragraph"]
         missing_cats = []
-        for category in list_:
-            if category not in list_(otherthing.keys()):
+        for category in list:
+            if category not in list(otherthing.keys()):
                 missing_cats.append(category)
 
         if missing_cats:
