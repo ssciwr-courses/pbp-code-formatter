@@ -35,7 +35,7 @@ def test_flake8_nb():
     failure = 0
     os.system("which flake8")
     os.system("which flake8-nb")
-    os.system("flake8-nb --version")
+    os.system("flake8-nb")
     try:
         subprocess.check_output(command, shell=True)
     except subprocess.CalledProcessError as e:
