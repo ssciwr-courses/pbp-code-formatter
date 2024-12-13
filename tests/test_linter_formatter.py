@@ -33,6 +33,7 @@ def test_flake8_nb():
     command = "python -m flake8-nb {}".format(input_file_path)
     print(command)
     failure = 0
+    os.system("python --version")
     os.system("python -m flake8-nb")
     try:
         subprocess.check_output(command, shell=True)
