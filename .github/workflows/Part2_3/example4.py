@@ -1,6 +1,7 @@
 from collections import defaultdict
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 
 map_expressions = {
     "KAT1MoralisierendesSegment": "KAT1-Moralisierendes Segment",
@@ -19,7 +20,7 @@ map_expressions = {
 def validate_data_dict(data_dict):
     if not data_dict:
         raise ValueError("data_dict is empty")
-    for data_file_name, data_file in data_dict.items():
+    for _, data_file in data_dict.items():
         validation_list = ["data", "file_type", "sofa", "paragraph"]
         missing_cats = []
         for category in validation_list:
@@ -27,10 +28,7 @@ def validate_data_dict(data_dict):
                 missing_cats.append(category)
 
         if missing_cats:
-            raise ValueError(
-                f"Data dict is missing \
-                             categories: {missing_cats}"
-            )
+            raise ValueError(f"Data dict is missing categories: {missing_cats}")
 
 
 class AnalyseOccurrence:
@@ -76,32 +74,24 @@ class AnalyseOccurrence:
     def _initialize_df(self):
         """Helper method to initialize data frame."""
         self.df = pd.DataFrame(self.instance_dict)
-        self.df.index = self.df.index.set_names((
-                ["Main Category", "Sub Category"]
-            ))
+        self.df.index = self.df.index.set_names(["Main Category", "Sub Category"])
 
     def _get_categories(self, span_dict, file_name):
-        """Helper method to initialize a dict with the given main and
-        sub categories."""
+        """Helper method to initialize a dict with the given main and sub categories."""
         for main_cat_key, main_cat_value in span_dict.items():
             for sub_cat_key, sub_cat_value in main_cat_value.items():
-                # the tuple index makes it easy to convert the dict
-                # into a pandas dataframe
-                self.instance_dict[file_name][(
-                    main_cat_key, sub_cat_key
-                    )] = len(
+                # the tuple index makes it easy to convert the dict into a pandas dataframe
+                self.instance_dict[file_name][(main_cat_key, sub_cat_key)] = len(
                     sub_cat_value
                 )
         return self.instance_dict
 
     def _add_total(self):
         """Helper method to set additional headers in data frame."""
-        self.df.loc[("total instances",
-                     "with invalid"), :] = self.df.sum(axis=0).values
+        self.df.loc[("total instances", "with invalid"), :] = self.df.sum(axis=0).values
         self.df.loc[("total instances", "without invalid"), :] = (
             self.df.loc[("total instances", "with invalid"), :].values
-            - self.df.loc["KAT1MoralisierendesSegment",
-                          "Keine Moralisierung"].values
+            - self.df.loc["KAT1MoralisierendesSegment", "Keine Moralisierung"].values
         )
 
     def _clean_df(self):
@@ -120,8 +110,7 @@ class AnalyseOccurrence:
         if self.mode == "spans":
             self.df = self.df.replace({np.nan: None})
             # remove quotes - not sure if this is necessary
-            # self.df = self.df.applymap(
-            # lambda x: x.replace('"','') if isinstance(x, str) else x)
+            # self.df = self.df.applymap(lambda x: x.replace('"','') if isinstance(x, str) else x)
 
     def report_instances(self):
         """Reports number of occurrences of a category per text source."""
@@ -131,10 +120,8 @@ class AnalyseOccurrence:
             span_dict = self.data_dict[file_name]["data"]
             # initilize total instances rows for easier setting later.
             # only for mode instances
-            self.instance_dict[file_name][("total instances",
-                                           "with invalid")] = 0
-            self.instance_dict[file_name][("total instances",
-                                           "without invalid")] = 0
+            self.instance_dict[file_name][("total instances", "with invalid")] = 0
+            self.instance_dict[file_name][("total instances", "without invalid")] = 0
             self.instance_dict = self._get_categories(span_dict, file_name)
         # initialize data frame
         self._initialize_df()
@@ -144,8 +131,7 @@ class AnalyseOccurrence:
 
     def report_spans(self):
         """Reports spans of a category per text source."""
-        # span reports the spans of the annotations
-        # separated by separator-token
+        # span reports the spans of the annotations separated by separator-token
         self.instance_dict = self._get_categories(
             self.data_dict[self.file_names[0]]["data"], self.file_names[0]
         )
@@ -155,13 +141,12 @@ class AnalyseOccurrence:
             span_dict = self.data_dict[file_name]["data"]
             span_text = self.data_dict[file_name]["sofa"]
             for main_cat_key, main_cat_value in span_dict.items():
-                for sub_cat_key in main_cat_value.keys():
-                    # save the span begin and end character
-                    # index for further analysis
+                for sub_cat_key in main_cat_value:
+                    # save the span begin and end character index for further analysis
                     # span_dict[main_cat_key][sub_cat_key] =
                     # find the text for each span
                     span_annotated_text = [
-                        span_text[span["begin"]:span["end"]]
+                        span_text[span["begin"] : span["end"]]
                         for span in span_dict[main_cat_key][sub_cat_key]
                     ]
                     # clean the spans from #
@@ -185,7 +170,7 @@ class AnalyseOccurrence:
         for file_name in self.file_names:
             span_dict = self.data_dict[file_name]["data"]
             for main_cat_key, main_cat_value in span_dict.items():
-                for sub_cat_key in main_cat_value.keys():
+                for sub_cat_key in main_cat_value:
                     # report the beginning and end of each span as a tuple
                     span_list = [
                         (span["begin"], span["end"])
@@ -199,3 +184,6 @@ class AnalyseOccurrence:
     def map_categories(self):
         self.df = self.df.rename(map_expressions)
         self._clean_df()
+
+
+

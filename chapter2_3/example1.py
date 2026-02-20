@@ -1,10 +1,12 @@
 import os
-import glob
+from pathlib import Path
+
 
 
 
 # find all png files in a folder
-def find_files(path=None, pattern="*.png", recursive=True, limit = 20) -> list:
+def find_files(path: str=None, pattern: str="*.png",
+               limit: int = 20) -> list:
     """Find image files on the file system.
 
     :param path:
@@ -22,8 +24,7 @@ def find_files(path=None, pattern="*.png", recursive=True, limit = 20) -> list:
     if path is None:
         path = os.environ.get("XDG_DATA_HOME", ".")
 
-    result=list(glob.glob(f"{path}/{pattern}", recursive=recursive))
-
+    result = list(Path(path).glob(f"**/{pattern}"))
     if limit is not None:
         result = result[:limit]
 

@@ -8,14 +8,11 @@ def area_circ(r_in):
     :Returns: The area of the circle (float)."""
     if r_in < 0:
         raise ValueError("The radius must be >= 0.")
-    Kreis = np.pi * r_in**2
+    circle = np.pi * r_in**2
     print(
-        """The area of a circle with radius r = \
-            {:3.2f}cm is A = {:4.2f}cm2.""".format(
-            r_in, Kreis
-        )
+        f"""The area of a circle with radius r = {r_in:3.2f}cm is A = {circle:4.2f}cm2."""
     )
-    return Kreis
+    return circle
 
 
 if __name__ == "__main__":
