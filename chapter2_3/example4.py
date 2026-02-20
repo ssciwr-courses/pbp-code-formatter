@@ -1,7 +1,3 @@
-from collections import defaultdict
-
-import numpy as np
-import pandas as pd
 
 map_expressions = {
     "KAT1MoralisierendesSegment": "KAT1-Moralisierendes Segment",
@@ -16,11 +12,10 @@ map_expressions = {
     "Kommentar": "KOMMENTAR",
 }
 
-
 def validate_data_dict(data_dict):
     if not data_dict:
         raise ValueError("data_dict is empty")
-    for _, data_file in data_dict.items():
+    for data_file_name, data_file in data_dict.items():
         validation_list = ["data", "file_type", "sofa", "paragraph"]
         missing_cats = []
         for category in validation_list:
@@ -74,7 +69,7 @@ class AnalyseOccurrence:
     def _initialize_df(self):
         """Helper method to initialize data frame."""
         self.df = pd.DataFrame(self.instance_dict)
-        self.df.index = self.df.index.set_names(["Main Category", "Sub Category"])
+        self.df.index = self.df.index.set_names((["Main Category", "Sub Category"]))
 
     def _get_categories(self, span_dict, file_name):
         """Helper method to initialize a dict with the given main and sub categories."""
@@ -141,7 +136,7 @@ class AnalyseOccurrence:
             span_dict = self.data_dict[file_name]["data"]
             span_text = self.data_dict[file_name]["sofa"]
             for main_cat_key, main_cat_value in span_dict.items():
-                for sub_cat_key in main_cat_value:
+                for sub_cat_key in main_cat_value.keys():
                     # save the span begin and end character index for further analysis
                     # span_dict[main_cat_key][sub_cat_key] =
                     # find the text for each span
@@ -170,7 +165,7 @@ class AnalyseOccurrence:
         for file_name in self.file_names:
             span_dict = self.data_dict[file_name]["data"]
             for main_cat_key, main_cat_value in span_dict.items():
-                for sub_cat_key in main_cat_value:
+                for sub_cat_key in main_cat_value.keys():
                     # report the beginning and end of each span as a tuple
                     span_list = [
                         (span["begin"], span["end"])
