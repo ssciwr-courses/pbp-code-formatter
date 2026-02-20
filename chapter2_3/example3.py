@@ -20,6 +20,5 @@ def validate_data_dict(data_dict):
 
 
 if __name__ == "__main__":
-    data_dict = {}
     data_dict = {"test": {"testing": "just testing"}}
     validate_data_dict(data_dict)
