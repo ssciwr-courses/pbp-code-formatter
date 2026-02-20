@@ -5,9 +5,7 @@ def validate_data_dict(data_dict):
         if not otherthing:
             raise ValueError(f"The dict content under {something} is empty.")
         if not isinstance(otherthing, dict):
-            raise ValueError(
-                f"The content of {something} is not a dict but {type(otherthing)}."
-            )
+            raise ValueError(f"The content of {something} is not a dict but {type(otherthing)}.")
 
         list = ["data", "file_type", "sofa", "paragraph"]
         missing_cats = []

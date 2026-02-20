@@ -3,8 +3,7 @@ from pathlib import Path
 
 
 # find all png files in a folder
-def find_files(path: str = None, pattern: str = "*.png",
-               limit: int = 20) -> list:
+def find_files(path: str = None, pattern: str = "*.png", limit: int = 20) -> list:
     """Find image files on the file system.
 
     :param path:
@@ -27,7 +26,7 @@ def find_files(path: str = None, pattern: str = "*.png",
     if limit is not None:
         result = result[:limit]
 
-    return result 
+    return result
 
 
 if __name__ == "__main__":
