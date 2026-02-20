@@ -8,7 +8,7 @@ def test_ruff_check():
     input_file_path = current_dir / "chapter2_3"
     # run ruff on the example files one by one and check if there are any stylistic errors
     files = [input_file_path / "example1.py", input_file_path / "example2.py", input_file_path / "example3.py",
-             input_file_path / "example4.py", input_file_path / "example_jupyter.py"]
+             input_file_path / "example4.py", input_file_path / "example_jupyter.ipynb"]
     total_failure = 0
     for file in files:
         command = f"ruff check --preview {file}"
